@@ -41,25 +41,30 @@ The service will launch on http://localhost:8080 by default.
 
 📡 API Endpoints
 🔗 Shorten URL (POST)
-Endpoint: /shorten
+Endpoint: /api/url-shortner
 
 Method: POST
 
 Request Body (JSON):
 
-
+```
 {
   "url": "[https://www.example.com/very/long/url]"
 }
+```
 Response (JSON):
 
-
+```
 {
     "InputURL": "http://google.com",
     "OutputURL": "http://127.0.0.1:8080/api/url-shortner/9a4759b",
     "ErrMsg": ""
 }
+```
 ➡️ Redirect URL (GET)
+
 Endpoint: api/url-shortner/9a4759b (e.g., /your-short-url-key)
+
 Method: GET
+
 Description: Redirects users to the original long URL.
