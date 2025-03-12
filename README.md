@@ -21,14 +21,14 @@ A simple and efficient URL shortening service built with Go, designed to transfo
 1.  **Clone the Repository:**
 
     ```bash
-    git clone [https://github.com/akanshgupta98/URL-shortner.git](https://github.com/akanshgupta98/URL-shortner.git)
+    git clone https://github.com/akanshgupta98/URL-shortner.git
     cd URL-shortner
     ```
 
 2.  **Build the Application:**
 
     ```bash
-    go build
+    go build -o url-shortner cmd/main.go
     ```
 
 ### 🏃 Running the Application
@@ -49,14 +49,14 @@ Request Body (JSON):
 
 ```
 {
-  "url": "[https://www.example.com/very/long/url]"
+  "url": "https://www.example.com/very/long/url"
 }
 ```
 Response (JSON):
 
 ```
 {
-    "InputURL": "http://google.com",
+    "InputURL": "https://www.example.com/very/long/url",
     "OutputURL": "http://127.0.0.1:8080/api/url-shortner/9a4759b",
     "ErrMsg": ""
 }
