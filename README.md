@@ -47,7 +47,7 @@ This project is a simple and efficient URL shortening service built with Go, now
 
 #### 🔗 Shorten URL (POST)
 
-* **Endpoint:** `/shorten`
+* **Endpoint:** `/api/url-shortner`
 * **Method:** `POST`
 * **Request Body (JSON):**
 
