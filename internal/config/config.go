@@ -9,10 +9,10 @@ type ServerConfig struct {
 
 func Initialize() (cfg ServerConfig) {
 
-	if port := os.Getenv(PORT_ENV); port == "" {
+	if cfg.Port = os.Getenv(PORT_ENV); cfg.Port == "" {
 		cfg.Port = PORT_DEFAULT_VAL
 	}
-	if ip := os.Getenv(IP_ENV); ip == "" {
+	if cfg.IP = os.Getenv(IP_ENV); cfg.IP == "" {
 		cfg.IP = IP_DEFAULT_VAL
 	}
 	return

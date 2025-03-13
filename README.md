@@ -1,22 +1,23 @@
-# URL Shortener (Go) 🔗
+# Dockerized URL Shortener (Go) 🐳🔗
 
-A simple and efficient URL shortening service built with Go, designed to transform long URLs into concise, shareable links.
+This project is a simple and efficient URL shortening service built with Go, now containerized with Docker for easy deployment and scalability. It transforms long URLs into concise, shareable links.
 
 ## ✨ Features
 
 * **✂️ URL Shortening:** Easily convert lengthy URLs into short, unique identifiers.
 * **↩️ URL Redirection:** Seamlessly redirect users from short URLs to their original destinations.
 * **🔒 Concurrency Safe:** Engineered with mutexes to ensure robust thread safety under concurrent load.
+* **🐳 Dockerized:** Containerized for consistent deployment across environments.
+* **🚀 Easy Deployment:** Simplified setup with Docker.
 * **API Simplicity:** A straightforward API for effortless URL shortening and redirection.
 
 ## 🚀 Getting Started
 
 ### 📋 Prerequisites
 
-* Go 1.18 or higher
-* (Optional) `golangci-lint` for enhanced code quality
+* Docker
 
-### 🛠️ Installation
+### 🛠️ Installation and Running with Docker (Manual)
 
 1.  **Clone the Repository:**
 
@@ -25,41 +26,52 @@ A simple and efficient URL shortening service built with Go, designed to transfo
     cd URL-shortner
     ```
 
-2.  **Build the Application:**
+2.  **Build the Docker Image:**
 
     ```bash
-    go build
+    docker build -t url-shortener .
     ```
 
-### 🏃 Running the Application
+3.  **Run the Docker Container:**
 
-```bash
-./url-shortener
-```
+    ```bash
+    docker run -p 8080:8080 url-shortener
+    ```
 
-The service will launch on http://localhost:8080 by default.
+    The service will be accessible on `http://localhost:8080`.
 
-📡 API Endpoints
-🔗 Shorten URL (POST)
-Endpoint: /shorten
+### 📡 API Endpoints
 
-Method: POST
+#### 🔗 Shorten URL (POST)
 
-Request Body (JSON):
+* **Endpoint:** `/shorten`
+* **Method:** `POST`
+* **Request Body (JSON):**
 
+    ```json
+    {
+      "url": "https://www.example.com/very/long/url"
+    }
+    ```
 
-{
-  "url": "[https://www.example.com/very/long/url]"
-}
-Response (JSON):
+* **Response (JSON):**
 
+    ```json
+    {
+      "InputURL": "http://google.com",
+      "OutputURL": "http://127.0.0.1:8080/api/url-shortner/9a4759b",
+      "ErrMsg": ""
+    }
+    ```
 
-{
-    "InputURL": "http://google.com",
-    "OutputURL": "http://127.0.0.1:8080/api/url-shortner/9a4759b",
-    "ErrMsg": ""
-}
-➡️ Redirect URL (GET)
-Endpoint: api/url-shortner/9a4759b (e.g., /your-short-url-key)
-Method: GET
-Description: Redirects users to the original long URL.
+#### ➡️ Redirect URL (GET)
+
+* **Endpoint:** `/api/url-shortner/9a4759b` (e.g., `/your-short-url-key`)
+* **Method:** `GET`
+* **Description:** Redirects users to the original long URL.
+
+### 📝 Notes
+
+* Ensure Docker is running on your system before executing the commands.
+* If you encounter port conflicts, modify the port mapping in the `docker run` command.
+* For production environments, consider using a persistent data store (e.g., Redis or PostgreSQL) instead of in-memory storage.
