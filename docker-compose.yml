@@ -1,17 +1,18 @@
 services:
   app:
     build: .
-    ports:
-      - "8080:8080"
+    
     depends_on:
       - redis
     environment:
-      - PORT=8080
+      - PORT=$HTTP_PORT
       - ADDRESS=0.0.0.0
       - DB_ADDRESS=$REDIS_SERVICE_NAME
-      - DB_PORT=$DB_RUN_PORT
+      - DB_PORT=6379
+    ports:
+      - "$HTTP_PORT:$HTTP_PORT"
   redis:
     image: redis:alpine
     hostname: $REDIS_SERVICE_NAME
     ports:
-      - $DB_RUN_PORT:$DB_RUN_PORT
+      - "6379:6379"
