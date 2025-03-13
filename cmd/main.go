@@ -12,7 +12,7 @@ func main() {
 
 	// Load Configs.
 	cfg := config.Initialize()
-	repository.Initialize()
+	repository.Initialize(cfg)
 
 	// Start Server.
 	err := server.Run(cfg)
