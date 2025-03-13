@@ -22,7 +22,7 @@ This project is a simple and efficient URL shortening service built with Go, now
 1.  **Clone the Repository:**
 
     ```bash
-    git clone [https://github.com/akanshgupta98/URL-shortner.git](https://github.com/akanshgupta98/URL-shortner.git)
+    git clone https://github.com/akanshgupta98/URL-shortner.git
     cd URL-shortner
     ```
 
