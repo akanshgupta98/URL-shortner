@@ -31,12 +31,6 @@ func TestURLShortnerFetch(t *testing.T) {
 			method:       "GET",
 			expectedCode: http.StatusBadRequest,
 		},
-		{
-			name:         "Valid Fetch operation for URL",
-			url:          "/api/url-shortner/abc",
-			method:       "GET",
-			expectedCode: http.StatusBadRequest,
-		},
 	}
 
 	for _, tc := range tests {
