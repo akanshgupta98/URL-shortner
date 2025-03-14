@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"log"
 	"url_shortner/internal/config"
@@ -10,6 +11,12 @@ import (
 )
 
 var rdb *redis.Client
+
+var (
+	ErrNotInitialized = errors.New("database not initialized")
+	ErrInvalidKey     = errors.New("no key exists")
+	ErrGeneralFailure = errors.New("unable to fetch information from database")
+)
 
 func Initialize(cfg config.ServerConfig) {
 	options := &redis.Options{
@@ -20,7 +27,9 @@ func Initialize(cfg config.ServerConfig) {
 }
 
 func Store(key, val string) (err error) {
-
+	if rdb == nil {
+		return ErrNotInitialized
+	}
 	exists := rdb.Exists(context.Background(), key)
 	if exists.Val() == 1 {
 
@@ -39,10 +48,18 @@ func Store(key, val string) (err error) {
 }
 
 func Get(key string) (val string, err error) {
+	if rdb == nil {
+		return val, ErrNotInitialized
+	}
 	val, err = rdb.Get(context.Background(), key).Result()
 	if err != nil {
-		log.Println("key does not exists")
-		return val, fmt.Errorf("no url exists with this key: %s", key)
+		// log.Println("key does not exists")
+		if errors.Is(err, redis.Nil) {
+			return val, fmt.Errorf("%w: %v", ErrInvalidKey, err)
+		} else {
+			return val, fmt.Errorf("%w: %v", ErrGeneralFailure, err)
+		}
+
 	}
 	return val, nil
 

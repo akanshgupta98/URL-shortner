@@ -13,9 +13,14 @@ func main() {
 	// Load Configs.
 	cfg := config.Initialize()
 	repository.Initialize(cfg)
+	r, err := server.Initialize(cfg)
+	if err != nil {
+		log.Println("Unable to start the server")
+		os.Exit(-1)
+	}
 
 	// Start Server.
-	err := server.Run(cfg)
+	err = server.Run(r)
 	if err != nil {
 		log.Println("Unable to start the server")
 		os.Exit(-1)

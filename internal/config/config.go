@@ -18,10 +18,10 @@ func Initialize() (cfg ServerConfig) {
 		cfg.IP = IP_DEFAULT_VAL
 	}
 	if cfg.DB_IP = os.Getenv(DB_IP_ENV); cfg.DB_IP == "" {
-		cfg.IP = DB_IP_DEFAULT_VAL
+		cfg.DB_IP = DB_IP_DEFAULT_VAL
 	}
 	if cfg.DB_Port = os.Getenv(DB_PORT_ENV); cfg.DB_Port == "" {
-		cfg.IP = DB_PORT_DEFAULT_VAL
+		cfg.DB_Port = DB_PORT_DEFAULT_VAL
 	}
 	return
 
