@@ -13,13 +13,13 @@ type Router struct {
 	Addr   string
 }
 
-func Initialize(cfg config.ServerConfig) (r Router, err error) {
+func Initialize(cfg config.Config) (r Router, err error) {
 	router := gin.Default()
 	router.GET("/")
 	router.GET("/api/url-shortner/:site", handlers.URLShortnerFetch)
 	router.POST("/api/url-shortner", handlers.URLShortner)
 	r.Router = router
-	r.Addr = cfg.IP + ":" + cfg.Port
+	r.Addr = cfg.ServerCfg.IP + ":" + cfg.ServerCfg.Port
 	return
 
 }

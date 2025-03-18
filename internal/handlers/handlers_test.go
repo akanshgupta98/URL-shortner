@@ -12,13 +12,17 @@ import (
 	"github.com/go-playground/assert/v2"
 )
 
-func TestURLShortnerFetch(t *testing.T) {
+func PreTest(t *testing.T) (r server.Router) {
 	cfg := config.Initialize()
 	repository.Initialize(cfg)
 	r, err := server.Initialize(cfg)
 	if err != nil {
 		t.Fatal(err)
 	}
+	return
+}
+func TestURLShortnerFetch(t *testing.T) {
+	r := PreTest(t)
 	tests := []struct {
 		name         string
 		url          string
@@ -49,13 +53,7 @@ func TestURLShortnerFetch(t *testing.T) {
 }
 
 func TestURLShortner(t *testing.T) {
-	cfg := config.Initialize()
-	repository.Initialize(cfg)
-	r, err := server.Initialize(cfg)
-	if err != nil {
-		t.Fatal(err)
-	}
-
+	r := PreTest(t)
 	tests := []struct {
 		name         string
 		url          string

@@ -2,10 +2,12 @@ package repository
 
 import (
 	"context"
+	"database/sql"
 	"errors"
 	"fmt"
 	"log"
 	"url_shortner/internal/config"
+	"url_shortner/internal/database"
 
 	"github.com/redis/go-redis/v9"
 )
@@ -18,11 +20,18 @@ var (
 	ErrGeneralFailure = errors.New("unable to fetch information from database")
 )
 
-func Initialize(cfg config.ServerConfig) {
-	options := &redis.Options{
-		Addr: cfg.DB_IP + ":" + cfg.DB_Port,
+type Repo struct {
+	DBHdlr *sql.DB
+}
+
+func Initialize(cfg config.Config) (err error) {
+	var r Repo
+	r.DBHdlr, err = database.Initialize(cfg)
+	if err != nil {
+		log.Println("Unable to initialize repo: ", err.Error())
+		return
 	}
-	rdb = redis.NewClient(options)
+	return
 
 }
 
