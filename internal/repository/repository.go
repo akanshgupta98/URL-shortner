@@ -49,6 +49,13 @@ func Initialize(cfg config.Config) (err error) {
 
 }
 
+// Strictly for testing purpose only.
+func resetDB() {
+	r.once = sync.Once{}
+	r.DBHdlr = nil
+
+}
+
 func Store(key, val string) error {
 	if r.DBHdlr == nil {
 		log.Println(ErrNotInitialized.Error())
@@ -68,6 +75,14 @@ func Store(key, val string) error {
 }
 
 func Get(key string) (val string, err error) {
+
+	query := fmt.Sprintf(`SELECT OG_URL FROM SHORTNER WHERE SHORT_URL='%s'`, key)
+	rows, err := r.DBHdlr.Query(query)
+	if err != nil {
+		return val, fmt.Errorf("%w: %v", ErrFetch, err)
+	}
+	defer rows.Close()
+
 	if rdb == nil {
 		return val, ErrNotInitialized
 	}

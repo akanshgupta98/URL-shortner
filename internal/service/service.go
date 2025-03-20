@@ -29,7 +29,7 @@ func URLShortner(inputData string) (shortURL string, err error) {
 func URLShortnerFetch(inputData string) (originalURL string, err error) {
 	originalURL, err = repository.Get(inputData)
 	if err != nil {
-		if errors.Is(err, repository.ErrInvalidKey) {
+		if errors.Is(err, repository.ErrBadKey) {
 			return originalURL, fmt.Errorf("%w: %v", ErrInvalidRequest, err)
 		} else {
 			return originalURL, fmt.Errorf("%w: %v", ErrFailure, err)

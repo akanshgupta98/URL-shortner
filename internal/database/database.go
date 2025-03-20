@@ -1,11 +1,9 @@
 package database
 
 import (
-	"context"
 	"database/sql"
 	"fmt"
 	"log"
-	"time"
 	"url_shortner/internal/config"
 
 	_ "github.com/lib/pq"
@@ -18,11 +16,8 @@ func Initialize(cfg config.Config) (db *sql.DB, err error) {
 		log.Println("Unable to initialize the database: ", err.Error())
 		return
 	}
-	log.Println("SUcess to open postgres")
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
-
-	if err = db.PingContext(ctx); err != nil {
+	log.Println("Sucess to open postgres")
+	if err = db.Ping(); err != nil {
 		log.Println("Unable to connect with database: ", err.Error())
 		return
 	}

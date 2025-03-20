@@ -14,8 +14,11 @@ import (
 
 func PreTest(t *testing.T) (r server.Router) {
 	cfg := config.Initialize()
-	repository.Initialize(cfg)
-	r, err := server.Initialize(cfg)
+	err := repository.Initialize(cfg)
+	if err != nil {
+		t.Fatal(err)
+	}
+	r, err = server.Initialize(cfg)
 	if err != nil {
 		t.Fatal(err)
 	}

@@ -12,7 +12,11 @@ func main() {
 
 	// Load Configs.
 	cfg := config.Initialize()
-	repository.Initialize(cfg)
+	err := repository.Initialize(cfg)
+	if err != nil {
+		log.Println("Unable to initialize  the repo")
+		os.Exit(-1)
+	}
 	r, err := server.Initialize(cfg)
 	if err != nil {
 		log.Println("Unable to start the server")
