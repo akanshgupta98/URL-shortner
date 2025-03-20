@@ -9,7 +9,7 @@ import (
 	"url_shortner/internal/repository"
 	"url_shortner/internal/server"
 
-	"github.com/go-playground/assert/v2"
+	"github.com/stretchr/testify/assert"
 )
 
 func PreTest(t *testing.T) (r server.Router) {
@@ -38,6 +38,12 @@ func TestURLShortnerFetch(t *testing.T) {
 			method:       "GET",
 			expectedCode: http.StatusBadRequest,
 		},
+		{
+			name:         "Valid Fetch operation for URL",
+			url:          "/api/url-shortner/1c830c2",
+			method:       "GET",
+			expectedCode: http.StatusFound,
+		},
 	}
 
 	for _, tc := range tests {
@@ -50,6 +56,7 @@ func TestURLShortnerFetch(t *testing.T) {
 		r.Router.ServeHTTP(rr, req)
 		// Check the status code is what we expect.
 		assert.Equal(t, tc.expectedCode, rr.Code)
+		// assert.Equal(t, tc.expectedCode, rr.Code)
 
 	}
 
@@ -72,11 +79,18 @@ func TestURLShortner(t *testing.T) {
 			expectedCode: http.StatusBadRequest,
 		},
 		{
-			name:         "Valid Fetch operation for URL",
+			name:         "Valid Send operation for URL",
 			url:          "/api/url-shortner",
 			body:         []byte(`{"url":"http://google.com"}`),
 			method:       "POST",
 			expectedCode: http.StatusOK,
+		},
+		{
+			name:         "InValid Send operation for URL. JSON body incorrect.",
+			url:          "/api/url-shortner",
+			body:         []byte(`{"urls":"http://google.com"}`),
+			method:       "POST",
+			expectedCode: http.StatusBadRequest,
 		},
 	}
 

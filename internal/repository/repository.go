@@ -1,7 +1,6 @@
 package repository
 
 import (
-	"context"
 	"database/sql"
 	"errors"
 	"fmt"
@@ -75,26 +74,27 @@ func Store(key, val string) error {
 }
 
 func Get(key string) (val string, err error) {
-
+	log.Println("KEY IS: ", key)
 	query := fmt.Sprintf(`SELECT OG_URL FROM SHORTNER WHERE SHORT_URL='%s'`, key)
 	rows, err := r.DBHdlr.Query(query)
 	if err != nil {
+		log.Println("Not able to fetch: ", err.Error())
 		return val, fmt.Errorf("%w: %v", ErrFetch, err)
 	}
 	defer rows.Close()
-
-	if rdb == nil {
-		return val, ErrNotInitialized
-	}
-	val, err = rdb.Get(context.Background(), key).Result()
-	if err != nil {
-		if errors.Is(err, redis.Nil) {
-			return val, fmt.Errorf("%w: %v", ErrBadKey, err)
-		} else {
+	var url string
+	for rows.Next() {
+		log.Println("INSIDE FOR")
+		err = rows.Scan(&url)
+		if err != nil {
 			return val, fmt.Errorf("%w: %v", ErrFetch, err)
 		}
-
+		log.Println("Data is:  ", url)
+		val = url
 	}
-	return val, nil
+	if val == "" {
+		return val, fmt.Errorf("%w", ErrBadKey)
+	}
+	return
 
 }
